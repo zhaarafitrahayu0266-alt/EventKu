@@ -34,7 +34,7 @@ class LoginController extends Controller
 
         return redirect()->intended(match ($data['peran']) {
             'admin'  => '/admin',
-            'vendor' => '/vendors',   // ganti ke dashboard vendor kalau sudah ada
+            'vendor' => route('vendor.pengajuan'),   // ganti ke dashboard vendor kalau sudah ada
             default  => '/',
         });
     }

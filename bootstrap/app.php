@@ -12,7 +12,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Tamu yang membuka halaman wajib-login diarahkan ke halaman masuk
+        $middleware->redirectGuestsTo('/masuk');
+
+        // Yang sudah login lalu membuka /masuk atau /daftar diarahkan ke beranda
+        $middleware->redirectUsersTo('/');
+
+        $middleware->alias(['role' => \App\Http\Middleware\CekRole::class]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

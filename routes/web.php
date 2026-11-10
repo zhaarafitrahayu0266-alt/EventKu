@@ -5,6 +5,8 @@ use App\Http\Controllers\DaftarController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Vendor\RegisterController;
 use App\Http\Controllers\VendorController;
+use App\Http\Controllers\Vendor\DashboardController as VendorDashboardController;
+use App\Http\Controllers\Vendor\ProfilController as VendorProfilController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +45,16 @@ Route::middleware('guest')->group(function () {
     Route::get('/vendor/register', [RegisterController::class, 'create'])->name('vendor.register');
     Route::post('/vendor/register', [RegisterController::class, 'store'])->middleware('throttle:10,1');
 });
+
+Route::middleware(['auth', 'role:vendor'])
+    ->prefix('vendor')
+    ->name('vendor')
+    ->group(function () {
+        Route::redirect('/', '/vendor/pengajuan-masuk');
+        Route::get('/pengajuan-masuk', [VendorDashboardController::class, 'index'])->name('pengajuan');
+        Route::get('/profil', [VendorProfilController::class, 'edit'])->name('profil');
+        Route::put('/profil', [VendorProfilController::class, 'update'])->name('profil.update');
+    });
 
 /*
 |--------------------------------------------------------------------------
