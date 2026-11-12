@@ -23,4 +23,29 @@ class Vendor extends Model
     {
         return $this->hasMany(PaketLayanan::class, 'id_vendor', 'id_vendor');
     }
+
+    public function subPesanan()          
+        { 
+            return $this->hasMany(SubPesanan::class, 'id_vendor', 'id_vendor'); 
+        }
+
+    public function portofolio()          
+        { 
+            return $this->hasMany(PortofolioVendor::class, 'id_vendor', 'id_vendor'); 
+        }
+
+    public function kalender()            
+    { 
+        return $this->hasMany(KalenderKetersediaan::class, 'id_vendor', 'id_vendor'); 
+    }
+
+    public function pengajuanPencairan()  
+    { 
+        return $this->hasMany(PengajuanPencairanDana::class, 'id_vendor', 'id_vendor'); 
+    }
+
+    public function notifikasi()          
+    { 
+        return $this->hasMany(Notifikasi::class, 'id_vendor', 'id_vendor'); 
+    }
 }
