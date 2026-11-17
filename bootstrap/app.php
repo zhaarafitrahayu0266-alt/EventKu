@@ -15,10 +15,16 @@ return Application::configure(basePath: dirname(__DIR__))
         // Tamu yang membuka halaman wajib-login diarahkan ke halaman masuk
         $middleware->redirectGuestsTo('/masuk');
 
-        // Yang sudah login lalu membuka /masuk atau /daftar diarahkan ke beranda
-        $middleware->redirectUsersTo('/');
-
-        $middleware->alias(['role' => \App\Http\Middleware\CekRole::class]);
+        // Yang sudah login lalu membuka /masuk atau /daftar diarahkan ke halamannya masing-masing
+        $middleware->redirectUsersTo(function (Request $request) {
+            if (auth('vendor')->check()) {
+                return route('vendor.pengajuan');
+            }
+            if (auth('admin')->check()) {
+                return '/admin';
+            }
+            return '/';
+        });
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

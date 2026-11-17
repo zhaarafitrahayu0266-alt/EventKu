@@ -234,14 +234,14 @@
     const blokDaftar = document.getElementById('blok-daftar');
     const linkDaftar = document.getElementById('link-daftar');
 
-        const urlDaftar = {
-            pelanggan: "{{ route('daftar') }}",
-            vendor: "{{ url('/vendor/register') }}"
-        };    
-        const teksDaftar = {
+    const urlDaftar = {
+        pelanggan: "{{ route('daftar') }}",
+        vendor: "{{ url('/vendor/register') }}"
+    };
+    const teksDaftar = {
         pelanggan: 'Daftar sekarang',
         vendor: 'Daftar sebagai vendor'
-        };
+    };
 
     tab.forEach(function (btn) {
         btn.addEventListener('click', function () {
@@ -265,6 +265,11 @@
             }
         });
     });
+
+    // Kembalikan tab yang dipilih setelah login gagal (peran dikirim balik oleh controller)
+    const peranAwal = "{{ old('peran', 'pelanggan') }}";
+    const tabAwal = document.querySelector('.tab button[data-peran="' + peranAwal + '"]');
+    if (tabAwal) { tabAwal.click(); }
 
     document.getElementById('lihat').addEventListener('click', function () {
         const sandi = document.getElementById('password');

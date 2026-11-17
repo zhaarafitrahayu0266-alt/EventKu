@@ -16,8 +16,8 @@ class DaftarRequest extends FormRequest
     {
         return [
             'name'     => ['required', 'string', 'max:100'],
-            'email'    => ['required', 'email:rfc', 'max:150', 'unique:users,email'],
-            'phone'    => ['required', 'regex:/^(\+62|62|0)8[0-9]{8,12}$/', 'unique:users,phone'],
+            'email'    => ['required', 'email:rfc', 'max:150', 'unique:pelanggan,email'],
+            'phone'    => ['required', 'regex:/^(\+62|62|0)8[0-9]{8,12}$/', 'unique:pelanggan,no_telp'],
             'password' => ['required', 'confirmed', Password::min(8)->letters()->numbers()],
             'terms'    => ['accepted'],
         ];
