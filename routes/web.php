@@ -7,6 +7,7 @@ use App\Http\Controllers\Vendor\RegisterController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\Vendor\DashboardController as VendorDashboardController;
 use App\Http\Controllers\Vendor\ProfilController as VendorProfilController;
+use App\Http\Controllers\PembayaranController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,9 +82,12 @@ Route::middleware('auth:admin')
 Route::post('/keluar', [LoginController::class, 'keluar'])->name('keluar');
 
 /*
-| Halaman khusus pelanggan (acara, pesanan, dst.) ditambahkan di sini:
-|
-| Route::middleware('auth:pelanggan')->group(function () {
-|     // route pelanggan
-| });
+|--------------------------------------------------------------------------
+| Sisi pelanggan (login lewat guard 'pelanggan')
+| Halaman khusus pelanggan (acara, pesanan, dst.) ditambahkan di sini.
+|--------------------------------------------------------------------------
 */
+Route::middleware('auth:pelanggan')->group(function () {
+    // Task 2: halaman tes payment gateway (hapus setelah task 4 selesai)
+    Route::get('/pembayaran/coba', [PembayaranController::class, 'coba'])->name('pembayaran.coba');
+});
