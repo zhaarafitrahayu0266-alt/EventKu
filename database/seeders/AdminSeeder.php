@@ -2,20 +2,27 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\PengelolaPlatform;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class AdminSeeder extends Seeder
 {
     public function run(): void
     {
-        User::updateOrCreate(
-            ['email' => env('ADMIN_EMAIL', 'admin@eventku.test')],
+        $email = env('ADMIN_EMAIL');
+        $password = env('ADMIN_PASSWORD');
+
+        if (! $email || ! $password) {
+            throw new \RuntimeException('Isi ADMIN_EMAIL dan ADMIN_PASSWORD di file .env dulu.');
+        }
+
+        // Password di-hash otomatis oleh cast 'hashed' pada model PengelolaPlatform.
+        PengelolaPlatform::updateOrCreate(
+            ['email' => $email],
             [
-                'name'     => 'Admin EventKu',
-                'password' => Hash::make(env('ADMIN_PASSWORD')),
-                'role'     => 'admin',
+                'nama'       => 'Admin EventKu',
+                'password'   => $password,
+                'role_admin' => 'super_admin',
             ]
         );
     }

@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DaftarRequest;
-use App\Models\User;
+use App\Models\Pelanggan;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class DaftarController extends Controller
 {
@@ -16,17 +15,17 @@ class DaftarController extends Controller
 
     public function store(DaftarRequest $request)
     {
-        // Registrasi publik HANYA untuk pelanggan: role dipaksa di server,
-        // tidak pernah diambil dari input form.
-        $user = User::create([
-            'name'     => $request->name,
+        // Registrasi publik HANYA untuk pelanggan (tabel `pelanggan` sesuai ERD).
+        // Password di-hash otomatis oleh cast 'hashed' pada model Pelanggan.
+        // Data diri lengkap (KTP, medsos, disclaimer) diisi nanti sebelum bayar DP.
+        $pelanggan = Pelanggan::create([
+            'nama'     => $request->name,
             'email'    => $request->email,
-            'phone'    => $request->phone,
-            'password' => Hash::make($request->password),
-            'role'     => 'pelanggan',
+            'no_telp'  => $request->phone,
+            'password' => $request->password,
         ]);
 
-        Auth::login($user);
+        Auth::guard('pelanggan')->login($pelanggan);
         $request->session()->regenerate();
 
         return redirect()->intended('/')->with('success', 'Akun berhasil dibuat. Selamat datang di EventKu!');

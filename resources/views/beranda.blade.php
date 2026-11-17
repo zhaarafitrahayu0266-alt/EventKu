@@ -116,8 +116,22 @@
         </nav>
 
         <div class="aksi">
-            @auth
-                <span class="sapa">Halo, {{ \Illuminate\Support\Str::words(auth()->user()->name, 1, '') }}</span>
+            @if (auth('vendor')->check())
+                <span class="sapa">Halo, {{ auth('vendor')->user()->nama_vendor }}</span>
+                <a href="{{ route('vendor.pengajuan') }}" class="btn btn-fill">Dashboard</a>
+                <form method="POST" action="{{ route('keluar') }}">
+                    @csrf
+                    <button type="submit" class="btn btn-outline">Keluar</button>
+                </form>
+            @elseif (auth('admin')->check())
+                <span class="sapa">Halo, {{ auth('admin')->user()->nama }}</span>
+                <a href="{{ url('/admin') }}" class="btn btn-fill">Dashboard</a>
+                <form method="POST" action="{{ route('keluar') }}">
+                    @csrf
+                    <button type="submit" class="btn btn-outline">Keluar</button>
+                </form>
+            @elseif (auth('pelanggan')->check())
+                <span class="sapa">Halo, {{ \Illuminate\Support\Str::words(auth('pelanggan')->user()->nama, 1, '') }}</span>
                 <form method="POST" action="{{ route('keluar') }}">
                     @csrf
                     <button type="submit" class="btn btn-outline">Keluar</button>
@@ -125,7 +139,7 @@
             @else
                 <a href="{{ route('masuk') }}" class="btn btn-outline">Masuk</a>
                 <a href="{{ route('daftar') }}" class="btn btn-fill">Daftar</a>
-            @endauth
+            @endif
         </div>
     </div>
 </header>

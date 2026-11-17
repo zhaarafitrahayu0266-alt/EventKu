@@ -28,7 +28,7 @@ Route::get('/vendors/{id}', [VendorController::class, 'show'])->name('vendor.sho
 | Tamu (belum login): masuk & daftar
 |--------------------------------------------------------------------------
 */
-Route::middleware('guest')->group(function () {
+Route::middleware('guest:pelanggan,vendor,admin')->group(function () {
     // Login (pelanggan, vendor, admin)
     Route::get('/masuk', [LoginController::class, 'create'])->name('masuk');
     Route::post('/masuk', [LoginController::class, 'proses'])
@@ -46,9 +46,14 @@ Route::middleware('guest')->group(function () {
     Route::post('/vendor/register', [RegisterController::class, 'store'])->middleware('throttle:10,1');
 });
 
-Route::middleware(['auth', 'role:vendor'])
+/*
+|--------------------------------------------------------------------------
+| Sisi vendor (login lewat guard 'vendor')
+|--------------------------------------------------------------------------
+*/
+Route::middleware('auth:vendor')
     ->prefix('vendor')
-    ->name('vendor')
+    ->name('vendor.')
     ->group(function () {
         Route::redirect('/', '/vendor/pengajuan-masuk');
         Route::get('/pengajuan-masuk', [VendorDashboardController::class, 'index'])->name('pengajuan');
@@ -58,20 +63,27 @@ Route::middleware(['auth', 'role:vendor'])
 
 /*
 |--------------------------------------------------------------------------
-| Sudah login
+| Sisi admin (login lewat guard 'admin') - placeholder, ganti dengan halaman admin
 |--------------------------------------------------------------------------
 */
-Route::post('/keluar', [LoginController::class, 'keluar'])->middleware('auth')->name('keluar');
+Route::middleware('auth:admin')
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        Route::get('/', fn () => 'Dashboard admin: segera dibuat')->name('dashboard');
+    });
 
 /*
-| Aktifkan setelah middleware CekRole dibuat dan alias 'role' didaftarkan
-| di bootstrap/app.php, lalu isi dengan route dashboard masing-masing.
+|--------------------------------------------------------------------------
+| Keluar (semua peran: pelanggan, vendor, admin)
+|--------------------------------------------------------------------------
+*/
+Route::post('/keluar', [LoginController::class, 'keluar'])->name('keluar');
+
+/*
+| Halaman khusus pelanggan (acara, pesanan, dst.) ditambahkan di sini:
 |
-| Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
-|     // route admin
-| });
-|
-| Route::middleware(['auth', 'role:vendor'])->prefix('vendor')->group(function () {
-|     // route dashboard vendor (jangan menimpa /vendor/register di atas)
+| Route::middleware('auth:pelanggan')->group(function () {
+|     // route pelanggan
 | });
 */
