@@ -4,7 +4,7 @@
 <form method="GET" style="display:flex;gap:8px">
   <select name="kategori">
     <option value="">Semua kategori</option>
-    @foreach($kategori as $k)
+    @foreach($kategoriJasas as $k)
       <option value="{{ $k->id_kategori }}" @selected(request('kategori') == $k->id_kategori)>{{ $k->nama_kategori }}</option>
     @endforeach
   </select>
@@ -14,7 +14,7 @@
 
 @forelse($vendors as $v)
   <div class="card">
-    <b>{{ $v->nama_usaha }}</b> · {{ $v->kategori->nama_kategori }} · {{ $v->kota }}<br>
+    <b>{{ $v->nama_vendor }}</b> · {{ $v->kategori->nama_kategori }} · {{ $v->kota }}<br>
     Mulai Rp {{ number_format($v->paket_layanan_min_harga ?? 0, 0, ',', '.') }}<br><br>
     <a class="btn" href="{{ route('vendor.show', $v->id_vendor) }}">Lihat</a>
   </div>

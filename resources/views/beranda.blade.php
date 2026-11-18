@@ -140,10 +140,9 @@
         <form class="cari" method="GET" action="{{ route('vendor.index') }}">
             <select name="kategori" aria-label="Kategori jasa">
                 <option value="">Kategori jasa</option>
-                <option value="mua">MUA</option>
-                <option value="catering">Catering</option>
-                <option value="fotografi">Fotografi</option>
-                <option value="mc-hiburan">MC &amp; Hiburan</option>
+                @foreach ($kategoriJasas as $k)
+                    <option value="{{ $k->id_kategori }}">{{ $k->nama_kategori }}</option>
+                @endforeach
             </select>
             <input type="date" name="tanggal" min="{{ now()->toDateString() }}" aria-label="Tanggal acara">
             <button type="submit">Cari Vendor</button>
@@ -157,10 +156,9 @@
         <h2 class="judul">Kategori Jasa</h2>
         <p class="ket">Pilih jenis jasa yang kamu butuhkan untuk acaramu.</p>
         <div class="kategori">
-            <a href="{{ route('vendor.index', ['kategori' => 'mua']) }}">MUA</a>
-            <a href="{{ route('vendor.index', ['kategori' => 'catering']) }}">Catering</a>
-            <a href="{{ route('vendor.index', ['kategori' => 'fotografi']) }}">Fotografi</a>
-            <a href="{{ route('vendor.index', ['kategori' => 'mc-hiburan']) }}">MC &amp; Hiburan</a>
+            @foreach ($kategoriJasas as $k)
+                <a href="{{ route('vendor.index', ['kategori' => $k->id_kategori]) }}">{{ $k->nama_kategori }}</a>
+            @endforeach
         </div>
     </div>
 </section>

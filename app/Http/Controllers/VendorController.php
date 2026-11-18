@@ -20,4 +20,13 @@ class VendorController extends Controller
         $kategoriJasas = KategoriJasa::where('status_aktif', true)->get();
         return view('vendor.index', compact('vendors', 'kategoriJasas'));
     }
+
+    public function show($id)
+    {
+        $vendor = Vendor::with(['kategori', 'paketLayanan'])
+            ->where('status_aktif', true)
+            ->findOrFail($id);
+            
+        return view('vendor.show', compact('vendor'));
+    }
 }

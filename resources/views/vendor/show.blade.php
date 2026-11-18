@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('isi')
-<h3>{{ $vendor->nama_usaha }}</h3>
-<p>{{ $vendor->kategori->nama_kategori }} · {{ $vendor->kota }}<br>{{ $vendor->deskripsi_usaha }}</p>
+<h3>{{ $vendor->nama_vendor }}</h3>
+<p>{{ $vendor->kategori->nama_kategori }} · {{ $vendor->kota }}<br>{{ $vendor->deskripsi }}</p>
 
 <h4>Paket layanan</h4>
 @forelse($vendor->paketLayanan as $p)

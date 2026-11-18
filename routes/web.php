@@ -5,13 +5,16 @@ use App\Http\Controllers\DaftarController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Vendor\RegisterController;
 use App\Http\Controllers\VendorController;
+use App\Models\KategoriJasa;
 
 /*
 |--------------------------------------------------------------------------
 | Beranda
 |--------------------------------------------------------------------------
 */
-Route::get('/', fn () => view('beranda'))->name('beranda');
+Route::get('/', fn () => view('beranda', [
+    'kategoriJasas' => KategoriJasa::where('status_aktif', true)->get(),
+]))->name('beranda');
 
 /*
 |--------------------------------------------------------------------------
